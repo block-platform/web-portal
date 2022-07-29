@@ -3,6 +3,8 @@ Web portal for the Distributed and Decentralized IoT Platform
 
 ## API Contract With Manager Node
 
+- Note: All requests will contain JWT in the Bearer token header
+
 - Register user
 
 `[POST] /users`
@@ -18,6 +20,12 @@ Request body:
 Response:
 
 `200 OK` for successful registration
+Response body:
+```json
+{
+    "token": "<jwt>"
+}
+```
 
 `400 Bad Request` for failed registration
 
@@ -36,6 +44,12 @@ Request body:
 Response:
 
 `200 OK` for successful sign in
+Response body:
+```json
+{
+    "token": "<jwt>"
+}
+```
 
 `401 Unauthorized` for failed sign in
 
@@ -48,7 +62,7 @@ Request body:
 {
     "id": "<id>",
     "name": "<name>",
-    "region": "<region>",
+    "region": "<region>"
 }
 ```
 
@@ -76,7 +90,7 @@ Request body:
 ```json
 {
     "device_id": "<device_id>",
-    "accessing_device_id": "<accessing_device_id>",
+    "accessing_device_id": "<accessing_device_id>"
 }
 ```
 
