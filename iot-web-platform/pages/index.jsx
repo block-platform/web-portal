@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { useUser } from '../lib/customHooks';
 import Layout from '../components/Layout';
 import { API_ROUTES } from '../utils/constants';
+import axios from 'axios';
 
 // Table imports
 import Table from '@mui/material/Table';
@@ -18,6 +19,12 @@ export default function Home() {
   const [openTab, setOpenTab] = useState(0);
   const [networkData, setNetworkData] = useState([]);
   const [policyData, setPolicyData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Client data
+  const [clientEmail, setClientEmail] = useState('');
+  const [clientAuthorizedDevice, setClientAuthorizedDevice] = useState('');
+  const [clientPassword, setClientPassword] = useState('');
 
   useEffect(() => {
     fetchNetworkData();
@@ -44,6 +51,34 @@ export default function Home() {
           setPolicyData(response.policies);
         }
       });
+  };
+
+  // Sign up handler for client registration
+  const registerClient = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: 'post',
+        url: API_ROUTES.REGISTER_CLIENT,
+        data: {
+          "email": clientEmail,
+          "device_id": clientAuthorizedDevice,
+          "password": clientPassword,
+        }
+      });
+      if (response.status !== 200) {
+        console.log('Something went wrong during registering the client: ', response);
+        return;
+      } else {
+        console.log("Client registered successfully");
+      }
+    }
+    catch (err) {
+      console.log('Some error occured during registering the client: ', err);
+    }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   if (!user || !authenticated) {
@@ -196,7 +231,45 @@ export default function Home() {
                         </TableContainer>
                       </div>
                       <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+                        <div className="flex flex-1 flex-col justify-evenly">
+                          <input
+                            className="border-2 outline-none p-2 rounded-md"
+                            type="email"
+                            placeholder="Client Email"
+                            value={clientEmail}
+                            onChange={(e) => { setClientEmail(e.target.value); }}
+                          />
+                          <input
+                            className="border-2 outline-none p-2 rounded-md"
+                            type="email"
+                            placeholder="Authorized Device ID"
+                            value={clientAuthorizedDevice}
+                            onChange={(e) => { setClientAuthorizedDevice(e.target.value); }}
+                          />
+                          <input
+                            className="border-2 outline-none p-2 rounded-md"
+                            type="password"
+                            placeholder="Password" value={clientPassword}
+                            onChange={(e) => { setClientPassword(e.target.value); }}
+                          />
 
+                          <button
+                            className="
+             flex justify-center
+             p-2 rounded-md w-1/2 self-center
+             bg-blue-900  text-white 
+             hover:bg-blue-800"
+                            onClick={registerClient}
+                          >
+                            {
+                              isLoading ?
+                                <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
+                            }
+                            <span>
+                              SIGN UP
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
