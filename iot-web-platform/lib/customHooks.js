@@ -5,7 +5,7 @@ import Router from 'next/router';
 
 export function useUser() {
     const [user, setUser] = useState(null);
-    const [authenticated, setAutenticated] = useState(false);
+    const [authenticated, setAuthenticated] = useState(false);
     
     useEffect(() => {
         async function getUserDetails() {
@@ -15,7 +15,7 @@ export function useUser() {
                 return;
             }
             setUser(user);
-            setAutenticated(authenticated);
+            setAuthenticated(authenticated);
         }
         getUserDetails();
     }, []);
