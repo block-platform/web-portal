@@ -35,7 +35,7 @@ export default function SignUp() {
                     company
                 }
             });
-            if (!response?.data?.token) {
+            if (!response?.data?.emailToken) {
                 console.log('Something went wrong during signing up: ', response);
                 return;
             }
