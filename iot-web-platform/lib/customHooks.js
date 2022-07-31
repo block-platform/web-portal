@@ -19,5 +19,6 @@ export function useUser() {
         }
         getUserDetails();
     }, []);
+    console.log(`Returning user : ${JSON.stringify(user)} and authenticated: ${authenticated} from customHooks`)
     return { user, authenticated };
 }
