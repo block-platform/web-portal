@@ -17,9 +17,11 @@ export default function Home() {
   const { user, authenticated } = useUser();
   const [openTab, setOpenTab] = useState(1);
   const [networkData, setNetworkData] = useState([]);
+  const [policyData, setPolicyData] = useState([]);
 
   useEffect(() => {
     fetchNetworkData();
+    fetchPolicyData();
   }, []);
 
   const fetchNetworkData = () => {
@@ -27,7 +29,20 @@ export default function Home() {
       .then((res) => res.json())
       .then((response) => {
         console.log("Network data: ", response);
-        setNetworkData(response?.devices);
+        if (response?.devices) {
+          setNetworkData(response.devices);
+        }
+      });
+  };
+
+  const fetchPolicyData = () => {
+    fetch(API_ROUTES.GET_POLICY_DATA)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log("Policy data: ", response);
+        if (response?.policies) {
+          setPolicyData(response.policies);
+        }
       });
   };
 
@@ -97,7 +112,7 @@ export default function Home() {
                     <div className="tab-content tab-space">
                       <div className={openTab === 1 ? "block" : "hidden"} id="link1">
                         <TableContainer component={Paper}>
-                          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                          <Table sx={{ minWidth: 650 }} aria-label="network data table">
                             <TableHead>
                               <TableRow>
                                 <TableCell>Device Name</TableCell>
@@ -125,9 +140,29 @@ export default function Home() {
                         </TableContainer>
                       </div>
                       <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                        <p>
-                          Policy Management Stuff
-                        </p>
+                        <TableContainer component={Paper}>
+                          <Table sx={{ minWidth: 650 }} aria-label="policy data table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Device Name</TableCell>
+                                <TableCell>Authorized Devices</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {policyData.map((row) => (
+                                <TableRow
+                                  key={row.name}
+                                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                  <TableCell component="th" scope="row">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell>{row.authorized_devices?.join(", ")}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
                       </div>
                     </div>
                   </div>
