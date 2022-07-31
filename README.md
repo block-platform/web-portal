@@ -116,7 +116,8 @@ Response:
 ```json
 {
     "email": "<email>",
-    "password": "<password>"
+    "password": "<password>",
+    "device_id": "<device_id>"
 }
 ```
 

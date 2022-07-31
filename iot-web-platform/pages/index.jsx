@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 
 export default function Home() {
   const { user, authenticated } = useUser();
-  const [openTab, setOpenTab] = useState(1);
+  const [openTab, setOpenTab] = useState(0);
   const [networkData, setNetworkData] = useState([]);
   const [policyData, setPolicyData] = useState([]);
 
@@ -72,6 +72,25 @@ export default function Home() {
                     <a
                       className={
                         "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                        (openTab === 0
+                          ? "text-white bg-purple-600"
+                          : "text-purple-600 bg-white")
+                      }
+                      onClick={e => {
+                        e.preventDefault();
+                        setOpenTab(0);
+                      }}
+                      data-toggle="tab"
+                      href="#link1"
+                      role="tablist"
+                    >
+                      Manage Network
+                    </a>
+                  </li>
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a
+                      className={
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                         (openTab === 1
                           ? "text-white bg-purple-600"
                           : "text-purple-600 bg-white")
@@ -81,10 +100,10 @@ export default function Home() {
                         setOpenTab(1);
                       }}
                       data-toggle="tab"
-                      href="#link1"
+                      href="#link2"
                       role="tablist"
                     >
-                      Network Management
+                      Manage Policy
                     </a>
                   </li>
                   <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -103,18 +122,24 @@ export default function Home() {
                       href="#link2"
                       role="tablist"
                     >
-                      Policy Management
+                      Register Client
                     </a>
                   </li>
                 </ul>
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
                   <div className="px-4 py-5 flex-auto">
                     <div className="tab-content tab-space">
-                      <div className={openTab === 1 ? "block" : "hidden"} id="link1">
+                      <div className={openTab === 0 ? "block" : "hidden"} id="link1">
                         <TableContainer component={Paper}>
                           <Table sx={{ minWidth: 650 }} aria-label="network data table">
                             <TableHead>
-                              <TableRow>
+                              <TableRow
+                                sx={{
+                                  "& th": {
+                                    fontWeight: "bold",
+                                    color: "rgba(96, 96, 96)"
+                                  }
+                                }}>
                                 <TableCell>Device Name</TableCell>
                                 <TableCell>Region</TableCell>
                                 <TableCell>IPFS Hash</TableCell>
@@ -139,11 +164,17 @@ export default function Home() {
                           </Table>
                         </TableContainer>
                       </div>
-                      <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+                      <div className={openTab === 1 ? "block" : "hidden"} id="link2">
                         <TableContainer component={Paper}>
                           <Table sx={{ minWidth: 650 }} aria-label="policy data table">
                             <TableHead>
-                              <TableRow>
+                              <TableRow
+                                sx={{
+                                  "& th": {
+                                    fontWeight: "bold",
+                                    color: "rgba(96, 96, 96)"
+                                  }
+                                }}>
                                 <TableCell>Device Name</TableCell>
                                 <TableCell>Authorized Devices</TableCell>
                               </TableRow>
@@ -163,6 +194,9 @@ export default function Home() {
                             </TableBody>
                           </Table>
                         </TableContainer>
+                      </div>
+                      <div className={openTab === 2 ? "block" : "hidden"} id="link2">
+
                       </div>
                     </div>
                   </div>
