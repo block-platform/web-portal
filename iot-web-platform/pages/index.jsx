@@ -53,6 +53,7 @@ export default function Home() {
   };
 
   const fetchPolicyData = () => {
+    console.log("Fetching policy data");
     fetch(API_ROUTES.GET_POLICY_DATA)
       .then((res) => res.json())
       .then((response) => {
@@ -156,6 +157,7 @@ export default function Home() {
     }
     finally {
       setIsLoading(false);
+      fetchNetworkData();
     }
   };
 
@@ -188,6 +190,7 @@ export default function Home() {
     }
     finally {
       setIsLoading(false);
+      fetchPolicyData();
     }
   };
 
@@ -367,6 +370,7 @@ export default function Home() {
                                     }}>
                                     <TableCell>Device Name</TableCell>
                                     <TableCell>Authorized Devices</TableCell>
+                                    <TableCell>Authorized Users</TableCell>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -379,6 +383,7 @@ export default function Home() {
                                         {row.name}
                                       </TableCell>
                                       <TableCell>{row.authorized_devices?.join(", ")}</TableCell>
+                                      <TableCell>{row.authorized_users?.join(", ")}</TableCell>
                                     </TableRow>
                                   ))}
                                 </TableBody>
