@@ -26,6 +26,10 @@ export default function Home() {
   const [deviceOwner, setDeviceOwner] = useState('');
   const [deviceRegion, setDeviceRegion] = useState('');
 
+  // Policy data
+  const [policyDeviceID, setPolicyDeviceID] = useState('');
+  const [policyAccessID, setPolicyAccessID] = useState('');
+
   // Client data
   const [clientEmail, setClientEmail] = useState('');
   const [clientPassword, setClientPassword] = useState('');
@@ -155,6 +159,37 @@ export default function Home() {
     }
   };
 
+  // Handler for creating a policy
+  const createPolicy = async () => {
+    try {
+      setIsLoading(true);
+      console.log("Making request to create a policy");
+      const response = await axios({
+        method: 'post',
+        url: API_ROUTES.SET_POLICY,
+        data: {
+          "device_id": policyDeviceID,
+          "accessing_device_id": [policyAccessID],
+          "accessing_user_id": [],
+        }
+      });
+      console.log("Got back response from server: ", response);
+      if (response.status !== 200) {
+        console.log('Something went wrong while creating the policy: ', response);
+        return;
+      } else {
+        console.log("Policy created successfully");
+        setPolicyDeviceID('');
+        setPolicyAccessID('');
+      }
+    }
+    catch (err) {
+      console.log('Some error occured while providing the client access: ', err);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
 
   if (!user || !authenticated) {
     return <Layout>
@@ -318,35 +353,72 @@ export default function Home() {
                         </div>
                       </div>
                       <div className={openTab === 1 ? "block" : "hidden"} id="link2">
-                        <TableContainer component={Paper}>
-                          <Table sx={{ minWidth: 650 }} aria-label="policy data table">
-                            <TableHead>
-                              <TableRow
-                                sx={{
-                                  "& th": {
-                                    fontWeight: "bold",
-                                    color: "rgba(96, 96, 96)"
-                                  }
-                                }}>
-                                <TableCell>Device Name</TableCell>
-                                <TableCell>Authorized Devices</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {policyData.map((row) => (
-                                <TableRow
-                                  key={row.name}
-                                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                  <TableCell component="th" scope="row">
-                                    {row.name}
-                                  </TableCell>
-                                  <TableCell>{row.authorized_devices?.join(", ")}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
+                        <div className="flex flex-row">
+                          <div className="grow">
+                            <TableContainer component={Paper}>
+                              <Table sx={{ minWidth: 650 }} aria-label="policy data table">
+                                <TableHead>
+                                  <TableRow
+                                    sx={{
+                                      "& th": {
+                                        fontWeight: "bold",
+                                        color: "rgba(96, 96, 96)"
+                                      }
+                                    }}>
+                                    <TableCell>Device Name</TableCell>
+                                    <TableCell>Authorized Devices</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {policyData.map((row) => (
+                                    <TableRow
+                                      key={row.name}
+                                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                      <TableCell component="th" scope="row">
+                                        {row.name}
+                                      </TableCell>
+                                      <TableCell>{row.authorized_devices?.join(", ")}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </div>
+                          <div className="flex flex-col ml-5 grow">
+                            <span className='mb-2 font-bold text-center'>Create Access Policy</span>
+                            <input
+                              className="border-2 outline-none p-2 rounded-md"
+                              type="email"
+                              placeholder="Device ID"
+                              value={policyDeviceID}
+                              onChange={(e) => { setPolicyDeviceID(e.target.value); }}
+                            />
+                            <input
+                              className="border-2 outline-none p-2 rounded-md mt-2"
+                              type="email"
+                              placeholder="Authorized Devide ID" value={policyAccessID}
+                              onChange={(e) => { setPolicyAccessID(e.target.value); }}
+                            />
+
+                            <button
+                              className="
+                                flex justify-center
+                                p-2 rounded-md w-1/2 self-center
+                                bg-blue-900  text-white 
+                                hover:bg-blue-800 mt-5"
+                              onClick={createPolicy}
+                            >
+                              {
+                                isLoading ?
+                                  <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
+                              }
+                              <span>
+                                Create Policy
+                              </span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                       <div className={openTab === 2 ? "block" : "hidden"} id="link2">
                         <div className="flex flex-row">
