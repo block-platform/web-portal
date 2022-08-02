@@ -60,7 +60,6 @@ Response body:
 Request body:
 ```json
 {
-    "id": "<id>",
     "name": "<name>",
     "region": "<region>"
 }
@@ -90,7 +89,8 @@ Request body:
 ```json
 {
     "device_id": "<device_id>",
-    "accessing_device_id": "<accessing_device_id>"
+    "accessing_device_id": ["<accessing_device_id>", ...],
+    "accessing_user_id": ["<accessing_user_id>", ...],
 }
 ```
 
@@ -117,7 +117,6 @@ Response:
 {
     "email": "<email>",
     "password": "<password>",
-    "device_id": "<device_id>"
 }
 ```
 
