@@ -23,8 +23,9 @@ export default function Home() {
 
   // Client data
   const [clientEmail, setClientEmail] = useState('');
-  const [clientAuthorizedDevice, setClientAuthorizedDevice] = useState('');
   const [clientPassword, setClientPassword] = useState('');
+  const [clientAccessEmail, setClientAccessEmail] = useState('');
+  const [clientAccessDevice, setClientAccessDevice] = useState('');
 
   useEffect(() => {
     fetchNetworkData();
@@ -57,24 +58,59 @@ export default function Home() {
   const registerClient = async () => {
     try {
       setIsLoading(true);
+      console.log("Making request to register client");
       const response = await axios({
         method: 'post',
         url: API_ROUTES.REGISTER_CLIENT,
         data: {
           "email": clientEmail,
-          "device_id": clientAuthorizedDevice,
           "password": clientPassword,
         }
       });
+      console.log("Got back response from server: ", response);
       if (response.status !== 200) {
         console.log('Something went wrong during registering the client: ', response);
         return;
       } else {
         console.log("Client registered successfully");
+        setClientEmail('');
+        setClientPassword('');
       }
     }
     catch (err) {
       console.log('Some error occured during registering the client: ', err);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handler for providing client access to device
+  const clientAccess = async () => {
+    try {
+      setIsLoading(true);
+      console.log("Making request to add client access");
+      const response = await axios({
+        method: 'post',
+        url: API_ROUTES.SET_POLICY,
+        data: {
+          "device_id": clientAccessDevice,
+          "accessing_device_id": [],
+          "accessing_user_id": [clientAccessEmail],
+        }
+      });
+      console.log("Got back response from server: ", response);
+      if (response.status !== 200) {
+        console.log('Something went wrong while providing access to the client: ', response);
+        return;
+      } else {
+        console.log("Client provided access successfully");
+        setClientAccessEmail('');
+        setClientAccessDevice('');
+      }
+    }
+    catch (err) {
+      console.log('Some error occured while providing the client access: ', err);
     }
     finally {
       setIsLoading(false);
@@ -157,7 +193,7 @@ export default function Home() {
                       href="#link2"
                       role="tablist"
                     >
-                      Register Client
+                      Manage Client
                     </a>
                   </li>
                 </ul>
@@ -231,44 +267,73 @@ export default function Home() {
                         </TableContainer>
                       </div>
                       <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                        <div className="flex flex-1 flex-col justify-evenly">
-                          <input
-                            className="border-2 outline-none p-2 rounded-md"
-                            type="email"
-                            placeholder="Client Email"
-                            value={clientEmail}
-                            onChange={(e) => { setClientEmail(e.target.value); }}
-                          />
-                          <input
-                            className="border-2 outline-none p-2 rounded-md"
-                            type="email"
-                            placeholder="Authorized Device ID"
-                            value={clientAuthorizedDevice}
-                            onChange={(e) => { setClientAuthorizedDevice(e.target.value); }}
-                          />
-                          <input
-                            className="border-2 outline-none p-2 rounded-md"
-                            type="password"
-                            placeholder="Password" value={clientPassword}
-                            onChange={(e) => { setClientPassword(e.target.value); }}
-                          />
+                        <div className="flex flex-row">
+                          <div className="flex flex-1 flex-col justify-evenly pr-5">
+                            <span className='mb-2 font-bold text-center'>Register a client</span>
+                            <input
+                              className="border-2 outline-none p-2 rounded-md"
+                              type="email"
+                              placeholder="Client Email"
+                              value={clientEmail}
+                              onChange={(e) => { setClientEmail(e.target.value); }}
+                            />
+                            <input
+                              className="border-2 outline-none p-2 rounded-md mt-2"
+                              type="password"
+                              placeholder="Password" value={clientPassword}
+                              onChange={(e) => { setClientPassword(e.target.value); }}
+                            />
 
-                          <button
-                            className="
-             flex justify-center
-             p-2 rounded-md w-1/2 self-center
-             bg-blue-900  text-white 
-             hover:bg-blue-800"
-                            onClick={registerClient}
-                          >
-                            {
-                              isLoading ?
-                                <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
-                            }
-                            <span>
-                              SIGN UP
-                            </span>
-                          </button>
+                            <button
+                              className="
+                                flex justify-center
+                                p-2 rounded-md w-1/2 self-center
+                                bg-blue-900  text-white 
+                                hover:bg-blue-800 mt-5"
+                              onClick={registerClient}
+                            >
+                              {
+                                isLoading ?
+                                  <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
+                              }
+                              <span>
+                                Register Client
+                              </span>
+                            </button>
+                          </div>
+                          <div className="flex flex-1 flex-col justify-evenly pl-5">
+                            <span className='mb-2 font-bold text-center'>Provide access to a device</span>
+                            <input
+                              className="border-2 outline-none p-2 rounded-md"
+                              type="email"
+                              placeholder="Client Email"
+                              value={clientAccessEmail}
+                              onChange={(e) => { setClientAccessEmail(e.target.value); }}
+                            />
+                            <input
+                              className="border-2 outline-none p-2 rounded-md mt-2"
+                              type="email"
+                              placeholder="Device ID" value={clientAccessDevice}
+                              onChange={(e) => { setClientAccessDevice(e.target.value); }}
+                            />
+
+                            <button
+                              className="
+                                flex justify-center
+                                p-2 rounded-md w-1/2 self-center
+                                bg-blue-900  text-white 
+                                hover:bg-blue-800 mt-5"
+                              onClick={clientAccess}
+                            >
+                              {
+                                isLoading ?
+                                  <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
+                              }
+                              <span>
+                                Provide Access
+                              </span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>

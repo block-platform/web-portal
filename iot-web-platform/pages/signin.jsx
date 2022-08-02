@@ -37,7 +37,7 @@ export default function SignIn() {
                 console.log('Something went wrong during signing in: ', response);
                 return;
             }
-            storeTokenInLocalStorage(response.data.token);
+            storeTokenInLocalStorage(response.data.emailToken);
             Router.push(APP_ROUTES.HOME);
         }
         catch (err) {
