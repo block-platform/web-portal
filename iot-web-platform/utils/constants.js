@@ -7,6 +7,7 @@ export const API_ROUTES = {
     GET_NETWORK_DATA: '/api/data/get-network-data',
     GET_POLICY_DATA: '/api/data/get-policy-data',
     SET_POLICY: '/api/data/set-policy',
+    REGISTER_DEVICE: '/api/data/register-device',
 }
 
 export const APP_ROUTES = {

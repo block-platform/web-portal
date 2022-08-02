@@ -21,6 +21,11 @@ export default function Home() {
   const [policyData, setPolicyData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Device data
+  const [deviceName, setDeviceName] = useState('');
+  const [deviceOwner, setDeviceOwner] = useState('');
+  const [deviceRegion, setDeviceRegion] = useState('');
+
   // Client data
   const [clientEmail, setClientEmail] = useState('');
   const [clientPassword, setClientPassword] = useState('');
@@ -117,6 +122,40 @@ export default function Home() {
     }
   };
 
+  // Handler for registering a device
+  const registerDevice = async () => {
+    try {
+      setIsLoading(true);
+      console.log("Making request to register a device");
+      const response = await axios({
+        method: 'post',
+        url: API_ROUTES.REGISTER_DEVICE,
+        data: {
+          "name": deviceName,
+          "owner": deviceOwner,
+          "region": deviceRegion,
+        }
+      });
+      console.log("Got back response from server: ", response);
+      if (response.status !== 200) {
+        console.log('Something went wrong while trying to register the device: ', response);
+        return;
+      } else {
+        console.log("Device registered successfully");
+        setDeviceName('');
+        setDeviceOwner('');
+        setDeviceRegion('');
+      }
+    }
+    catch (err) {
+      console.log('Some error occured while registering the device: ', err);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+
+
   if (!user || !authenticated) {
     return <Layout>
       <div className="p-16">
@@ -201,39 +240,82 @@ export default function Home() {
                   <div className="px-4 py-5 flex-auto">
                     <div className="tab-content tab-space">
                       <div className={openTab === 0 ? "block" : "hidden"} id="link1">
-                        <TableContainer component={Paper}>
-                          <Table sx={{ minWidth: 650 }} aria-label="network data table">
-                            <TableHead>
-                              <TableRow
-                                sx={{
-                                  "& th": {
-                                    fontWeight: "bold",
-                                    color: "rgba(96, 96, 96)"
-                                  }
-                                }}>
-                                <TableCell>Device Name</TableCell>
-                                <TableCell>Region</TableCell>
-                                <TableCell>IPFS Hash</TableCell>
-                                <TableCell>Last Updated Time</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {networkData.map((row) => (
-                                <TableRow
-                                  key={row.name}
-                                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                  <TableCell component="th" scope="row">
-                                    {row.name}
-                                  </TableCell>
-                                  <TableCell>{row.region}</TableCell>
-                                  <TableCell>{row.ipfs}</TableCell>
-                                  <TableCell>{row.updated_at}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
+                        <div className="flex flex-row">
+                          <div className="grow">
+                            <TableContainer component={Paper}>
+                              <Table sx={{ minWidth: 650 }} aria-label="network data table">
+                                <TableHead>
+                                  <TableRow
+                                    sx={{
+                                      "& th": {
+                                        fontWeight: "bold",
+                                        color: "rgba(96, 96, 96)"
+                                      }
+                                    }}>
+                                    <TableCell>Device Name</TableCell>
+                                    <TableCell>Region</TableCell>
+                                    <TableCell>IPFS Hash</TableCell>
+                                    <TableCell>Last Updated Time</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {networkData.map((row) => (
+                                    <TableRow
+                                      key={row.name}
+                                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                      <TableCell component="th" scope="row">
+                                        {row.name}
+                                      </TableCell>
+                                      <TableCell>{row.region}</TableCell>
+                                      <TableCell>{row.ipfs}</TableCell>
+                                      <TableCell>{row.updated_at}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </div>
+                          <div className="flex flex-col ml-5 grow">
+                            <span className='mb-2 font-bold text-center'>Register a new device</span>
+                            <input
+                              className="border-2 outline-none p-2 rounded-md"
+                              type="email"
+                              placeholder="Name"
+                              value={deviceName}
+                              onChange={(e) => { setDeviceName(e.target.value); }}
+                            />
+                            <input
+                              className="border-2 outline-none p-2 rounded-md mt-2"
+                              type="email"
+                              placeholder="Owner" value={deviceOwner}
+                              onChange={(e) => { setDeviceOwner(e.target.value); }}
+                            />
+                            <input
+                              className="border-2 outline-none p-2 rounded-md mt-2"
+                              type="email"
+                              placeholder="Region" value={deviceRegion}
+                              onChange={(e) => { setDeviceRegion(e.target.value); }}
+                            />
+
+                            <button
+                              className="
+                                flex justify-center
+                                p-2 rounded-md w-1/2 self-center
+                                bg-blue-900  text-white 
+                                hover:bg-blue-800 mt-5"
+                              onClick={registerDevice}
+                            >
+                              {
+                                isLoading ?
+                                  <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
+                              }
+                              <span>
+                                Register Device
+                              </span>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                       <div className={openTab === 1 ? "block" : "hidden"} id="link2">
                         <TableContainer component={Paper}>
