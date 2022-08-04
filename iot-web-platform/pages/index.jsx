@@ -124,6 +124,7 @@ export default function Home() {
     }
     finally {
       setIsLoading(false);
+      fetchPolicyData();
     }
   };
 
@@ -291,6 +292,7 @@ export default function Home() {
                                       }
                                     }}>
                                     <TableCell>Device Name</TableCell>
+                                    <TableCell>Device ID</TableCell>
                                     <TableCell>Region</TableCell>
                                     <TableCell>IPFS Hash</TableCell>
                                     <TableCell>Last Updated Time</TableCell>
@@ -305,6 +307,7 @@ export default function Home() {
                                       <TableCell component="th" scope="row">
                                         {row.name}
                                       </TableCell>
+                                      <TableCell>{row.id}</TableCell>
                                       <TableCell>{row.region}</TableCell>
                                       <TableCell>{row.ipfs}</TableCell>
                                       <TableCell>{row.updated_at}</TableCell>
