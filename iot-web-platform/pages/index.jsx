@@ -75,6 +75,7 @@ export default function Home() {
         data: {
           "email": clientEmail,
           "password": clientPassword,
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);

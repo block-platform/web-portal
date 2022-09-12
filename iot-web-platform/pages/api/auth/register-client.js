@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { email, password, token } = req.body;
+    if (!email || !password || !token) {
         res.status(400).json({ error: 'Missing required fields' });
         return;
     }
@@ -9,6 +9,7 @@ export default async function handler(req, res) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ email, password }),
     });
