@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 
 
 export default function Home() {
-  const { user, authenticated } = useUser();
+  const { user, authenticated, token } = useUser();
   const [openTab, setOpenTab] = useState(0);
   const [networkData, setNetworkData] = useState([]);
   const [policyData, setPolicyData] = useState([]);
@@ -140,6 +140,7 @@ export default function Home() {
           "name": deviceName,
           "owner": deviceOwner,
           "region": deviceRegion,
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);

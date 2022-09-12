@@ -26,8 +26,11 @@ export async function getAuthenticatedUser() {
             }
         });
 
-        const { authenticated = false } = response.data;
-        return authenticated ? response.data : false;
+        if (authenticated === true) {
+            return { authenticated: true, user: response.data.user, token: token };
+        } else {
+            return { authenticated: false, user: null, token: null };
+        }
     } catch (err) {
         console.log('getAuthenticatedUser, Something Went Wrong', err);
         return defaultReturnObject;
