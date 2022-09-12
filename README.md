@@ -20,12 +20,6 @@ Request body:
 Response:
 
 `200 OK` for successful registration
-Response body:
-```json
-{
-    "token": "<jwt>"
-}
-```
 
 `400 Bad Request` for failed registration
 
@@ -61,6 +55,7 @@ Request body:
 ```json
 {
     "name": "<name>",
+    "owner": "<owner>",
     "region": "<region>"
 }
 ```
@@ -140,6 +135,7 @@ Response body:
         {
             "id": "<id>",
             "name": "<name>",
+            "owner": "<owner>",
             "region": "<region>",
             "ipfs": "<ipfs_hash>",
             "updated_at": "<timestamp>"
@@ -167,6 +163,9 @@ Response body:
             "name": "<name>",
             "authorized_devices": [
                 "<device_id>",
+            ],
+            "authorized_users": [
+                "<user_id>",
             ]
         },
         ...
