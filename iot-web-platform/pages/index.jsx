@@ -42,7 +42,10 @@ export default function Home() {
   }, []);
 
   const fetchNetworkData = () => {
-    fetch(API_ROUTES.GET_NETWORK_DATA)
+    fetch(API_ROUTES.GET_NETWORK_DATA, {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    })
       .then((res) => res.json())
       .then((response) => {
         console.log("Network data: ", response);
@@ -54,7 +57,10 @@ export default function Home() {
 
   const fetchPolicyData = () => {
     console.log("Fetching policy data");
-    fetch(API_ROUTES.GET_POLICY_DATA)
+    fetch(API_ROUTES.GET_POLICY_DATA, {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    })
       .then((res) => res.json())
       .then((response) => {
         console.log("Policy data: ", response);
