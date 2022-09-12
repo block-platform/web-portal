@@ -114,6 +114,7 @@ export default function Home() {
           "device_id": clientAccessDevice,
           "accessing_device_id": [],
           "accessing_user_id": [clientAccessEmail],
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);
@@ -182,6 +183,7 @@ export default function Home() {
           "device_id": policyDeviceID,
           "accessing_device_id": [policyAccessID],
           "accessing_user_id": [],
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);
