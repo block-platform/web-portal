@@ -1,4 +1,12 @@
 export default async function handler(req, res) {
+    const { token } = req.body;
+
+    if (!token) {
+        // res.status(400).json({ error: 'Missing required fields in get-network-data' });
+        // return;
+        console.log("Missing required fields in get-network-data");
+    }
+
     const response = await fetch(`${process.env.API_URL}/devices`);
 
     if (!response?.ok) {
