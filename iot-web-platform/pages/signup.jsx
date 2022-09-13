@@ -1,4 +1,5 @@
 import React from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { getAuthenticatedUser } from '../lib/common';
 import { useState, useEffect } from 'react';
 import { API_ROUTES, APP_ROUTES } from '../utils/constants';
@@ -26,6 +27,26 @@ export default function SignUp() {
     const signUp = async () => {
         try {
             setIsLoading(true);
+
+            if (!email || !password || !company) {
+                toast.error('Please fill in all the fields');
+                setIsLoading(false);
+                return;
+            }
+
+            if (password.length < 6) {
+                toast.error('Password should be at least 6 characters');
+                setIsLoading(false);
+                return;
+            }
+
+            const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (!emailRegex.test(email)) {
+                toast.error('Please enter a valid email');
+                setIsLoading(false);
+                return;
+            }
+
             const response = await axios({
                 method: 'post',
                 url: API_ROUTES.SIGN_UP,
@@ -55,6 +76,20 @@ export default function SignUp() {
 
     return (
         <div className="w-full h-screen flex justify-center items-center bg-blue-900">
+            <Toaster
+                toastOptions={{
+                    success: {
+                        style: {
+                            background: "green",
+                        },
+                    },
+                    error: {
+                        style: {
+                            background: "red",
+                        },
+                    },
+                }}
+            />
             <div className="w-1/2 h-3/4 shadow-lg rounded-md bg-white p-8 flex flex-col">
                 <h2 className="text-center font-medium text-2xl mb-4">
                     Sign Up
