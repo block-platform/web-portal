@@ -1,4 +1,5 @@
 import React from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { getAuthenticatedUser, storeTokenInLocalStorage } from '../lib/common';
 import { useState, useEffect } from 'react';
 import { API_ROUTES, APP_ROUTES } from '../utils/constants';
@@ -33,15 +34,16 @@ export default function SignIn() {
                     password
                 }
             });
-            if (!response?.data?.emailToken) {
-                console.log('Something went wrong during signing in: ', response);
-                return;
-            }
+            // if (!response?.data?.emailToken) {
+            //     console.log('Something went wrong during signing in: ', response);
+            //     return;
+            // }
             storeTokenInLocalStorage(response.data.emailToken);
             Router.push(APP_ROUTES.HOME);
         }
         catch (err) {
             console.log('Some error occured during signing in: ', err);
+            toast.error("Incorrect email or password");
         }
         finally {
             setIsLoading(false);
@@ -50,6 +52,20 @@ export default function SignIn() {
 
     return (
         <div className="w-full h-screen flex justify-center items-center bg-blue-900">
+            <Toaster
+                toastOptions={{
+                    success: {
+                        style: {
+                            background: "green",
+                        },
+                    },
+                    error: {
+                        style: {
+                            background: "red",
+                        },
+                    },
+                }}
+            />
             <div className="w-1/2 h-1/2 shadow-lg rounded-md bg-white p-8 flex flex-col">
                 <h2 className="text-center font-medium text-2xl mb-4">
                     Sign in

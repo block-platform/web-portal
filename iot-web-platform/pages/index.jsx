@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '../lib/customHooks';
 import Layout from '../components/Layout';
 import { API_ROUTES } from '../utils/constants';
@@ -88,15 +89,18 @@ export default function Home() {
       console.log("Got back response from server: ", response);
       if (response.status !== 200) {
         console.log('Something went wrong during registering the client: ', response);
+        toast.error("Error registering the client");
         return;
       } else {
         console.log("Client registered successfully");
+        toast.success("Client registered successfully!");
         setClientEmail('');
         setClientPassword('');
       }
     }
     catch (err) {
       console.log('Some error occured during registering the client: ', err);
+      toast.error("Error registering the client");
     }
     finally {
       setIsLoading(false);
@@ -121,15 +125,18 @@ export default function Home() {
       console.log("Got back response from server: ", response);
       if (response.status !== 200) {
         console.log('Something went wrong while providing access to the client: ', response);
+        toast.error("Error providing access to client");
         return;
       } else {
         console.log("Client provided access successfully");
+        toast.success("Client provided access successfully!");
         setClientAccessEmail('');
         setClientAccessDevice('');
       }
     }
     catch (err) {
       console.log('Some error occured while providing the client access: ', err);
+      toast.error("Error providing access to client");
     }
     finally {
       setIsLoading(false);
@@ -155,9 +162,11 @@ export default function Home() {
       console.log("Got back response from server: ", response);
       if (response.status !== 200) {
         console.log('Something went wrong while trying to register the device: ', response);
+        toast.error("Error registering device");
         return;
       } else {
         console.log("Device registered successfully");
+        toast.success("Device registered successfully!");
         setDeviceName('');
         setDeviceOwner('');
         setDeviceRegion('');
@@ -165,6 +174,7 @@ export default function Home() {
     }
     catch (err) {
       console.log('Some error occured while registering the device: ', err);
+      toast.error("Error registering deivce");
     }
     finally {
       setIsLoading(false);
@@ -190,15 +200,18 @@ export default function Home() {
       console.log("Got back response from server: ", response);
       if (response.status !== 200) {
         console.log('Something went wrong while creating the policy: ', response);
+        toast.error("Error creating policy");
         return;
       } else {
         console.log("Policy created successfully");
+        toast.success("Policy created successfully!");
         setPolicyDeviceID('');
         setPolicyAccessID('');
       }
     }
     catch (err) {
       console.log('Some error occured while providing the client access: ', err);
+      toast.error("Error creating policy");
     }
     finally {
       setIsLoading(false);
@@ -218,6 +231,20 @@ export default function Home() {
   return (
     <Layout>
       <div className="p-16">
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                background: "green",
+              },
+            },
+            error: {
+              style: {
+                background: "red",
+              },
+            },
+          }}
+        />
         <div className="text-2xl mb-4 font-bold text-blue-900">Infinity Network</div>
         {
           user &&
