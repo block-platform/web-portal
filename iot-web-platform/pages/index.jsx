@@ -41,15 +41,16 @@ export default function Home() {
     fetchPolicyData();
   }, []);
 
-  const fetchNetworkData = async () => {
-    console.log("Sending request to fetch network data with token: " + token);
-
-    try {
-      const response = await axios({
-        method: 'post',
-        url: API_ROUTES.GET_NETWORK_DATA,
-        data: {
-          token: token
+  const fetchNetworkData = () => {
+    fetch(API_ROUTES.GET_NETWORK_DATA, {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log("Network data: ", response);
+        if (response?.devices) {
+          setNetworkData(response.devices);
         }
       });
 
@@ -65,12 +66,15 @@ export default function Home() {
   const fetchPolicyData = async () => {
     console.log("Fetching policy data");
 
-    try {
-      const response = await axios({
-        method: 'post',
-        url: API_ROUTES.GET_POLICY_DATA,
-        data: {
-          token: token
+    fetch(API_ROUTES.GET_POLICY_DATA, {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log("Policy data: ", response);
+        if (response?.policies) {
+          setPolicyData(response.policies);
         }
       });
 
@@ -328,7 +332,7 @@ export default function Home() {
                                 <TableBody>
                                   {networkData.map((row) => (
                                     <TableRow
-                                      key={row.name}
+                                      key={row.id}
                                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                       <TableCell component="th" scope="row">
@@ -406,7 +410,7 @@ export default function Home() {
                                 <TableBody>
                                   {policyData.map((row) => (
                                     <TableRow
-                                      key={row.name}
+                                      key={row.id}
                                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                       <TableCell component="th" scope="row">
