@@ -4,7 +4,6 @@ export default async function handler(req, res) {
     if (!token) {
         res.status(400).json({ error: 'Missing required fields in get-policy-data' });
         return;
-        // console.log("Missing required fields in get-policy-data");
     }
 
     const response = await fetch(`${process.env.API_URL}/policies`, {

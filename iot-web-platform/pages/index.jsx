@@ -53,9 +53,17 @@ export default function Home() {
           setNetworkData(response.devices);
         }
       });
+
+      console.log("Network data: ", response);
+      if (response?.devices) {
+        setNetworkData(response.devices);
+      }
+    } catch (err) {
+      console.log("Axios error while fetching network data: ", err);
+    }
   };
 
-  const fetchPolicyData = () => {
+  const fetchPolicyData = async () => {
     console.log("Fetching policy data");
 
     fetch(API_ROUTES.GET_POLICY_DATA, {
@@ -69,6 +77,14 @@ export default function Home() {
           setPolicyData(response.policies);
         }
       });
+
+      console.log("Policy data: ", response);
+      if (response?.policies) {
+        setPolicyData(response.policies);
+      }
+    } catch (err) {
+      console.log("Axios error while fetching policy data: ", err);
+    }
   };
 
   // Sign up handler for client registration
@@ -206,7 +222,11 @@ export default function Home() {
     }
   };
 
-  if (!user || !authenticated) {
+  console.log("==============================================");
+  console.log(`user is ${user} and token is ${token}`);
+  console.log("==============================================");
+
+  if (!user || !authenticated || !token) {
     return <Layout>
       <div className="p-16">
         <div className="text-2xl mb-4 font-bold text-blue-900">Home - Client Side Auth</div>
