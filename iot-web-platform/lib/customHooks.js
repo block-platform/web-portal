@@ -7,7 +7,7 @@ export function useUser() {
     const [user, setUser] = useState(null);
     const [authenticated, setAuthenticated] = useState(false);
     const [token, setToken] = useState(null);
-    
+
     useEffect(() => {
         async function getUserDetails() {
             const { authenticated, user, token } = await getAuthenticatedUser();
@@ -21,6 +21,6 @@ export function useUser() {
         }
         getUserDetails();
     }, []);
-    console.log(`Returning user : ${JSON.stringify(user)} and authenticated: ${authenticated} from customHooks`)
-    return { user, authenticated };
+    console.log(`Returning user : ${JSON.stringify(user)} and authenticated: ${authenticated} from customHooks with token: ${token}`);
+    return { user, authenticated, token };
 }

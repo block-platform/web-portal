@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 
 
 export default function Home() {
-  const { user, authenticated } = useUser();
+  const { user, authenticated, token } = useUser();
   const [openTab, setOpenTab] = useState(0);
   const [networkData, setNetworkData] = useState([]);
   const [policyData, setPolicyData] = useState([]);
@@ -42,7 +42,10 @@ export default function Home() {
   }, []);
 
   const fetchNetworkData = () => {
-    fetch(API_ROUTES.GET_NETWORK_DATA)
+    fetch(API_ROUTES.GET_NETWORK_DATA, {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    })
       .then((res) => res.json())
       .then((response) => {
         console.log("Network data: ", response);
@@ -54,7 +57,11 @@ export default function Home() {
 
   const fetchPolicyData = () => {
     console.log("Fetching policy data");
-    fetch(API_ROUTES.GET_POLICY_DATA)
+
+    fetch(API_ROUTES.GET_POLICY_DATA, {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    })
       .then((res) => res.json())
       .then((response) => {
         console.log("Policy data: ", response);
@@ -75,6 +82,7 @@ export default function Home() {
         data: {
           "email": clientEmail,
           "password": clientPassword,
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);
@@ -107,6 +115,7 @@ export default function Home() {
           "device_id": clientAccessDevice,
           "accessing_device_id": [],
           "accessing_user_id": [clientAccessEmail],
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);
@@ -140,6 +149,7 @@ export default function Home() {
           "name": deviceName,
           "owner": deviceOwner,
           "region": deviceRegion,
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);
@@ -174,6 +184,7 @@ export default function Home() {
           "device_id": policyDeviceID,
           "accessing_device_id": [policyAccessID],
           "accessing_user_id": [],
+          "token": token,
         }
       });
       console.log("Got back response from server: ", response);
@@ -301,7 +312,7 @@ export default function Home() {
                                 <TableBody>
                                   {networkData.map((row) => (
                                     <TableRow
-                                      key={row.name}
+                                      key={row.id}
                                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                       <TableCell component="th" scope="row">
@@ -379,7 +390,7 @@ export default function Home() {
                                 <TableBody>
                                   {policyData.map((row) => (
                                     <TableRow
-                                      key={row.name}
+                                      key={row.id}
                                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                       <TableCell component="th" scope="row">
