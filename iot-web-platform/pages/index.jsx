@@ -39,7 +39,7 @@ export default function Home() {
   useEffect(() => {
     fetchNetworkData();
     fetchPolicyData();
-  }, []);
+  }, [token]);
 
   const fetchNetworkData = () => {
     fetch(API_ROUTES.GET_NETWORK_DATA, {
