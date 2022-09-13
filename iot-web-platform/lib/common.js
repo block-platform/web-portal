@@ -26,7 +26,7 @@ export async function getAuthenticatedUser() {
             }
         });
 
-        if (authenticated === true) {
+        if (response.data.authenticated === true) {
             return { authenticated: true, user: response.data.user, token: token };
         } else {
             return { authenticated: false, user: null, token: null };

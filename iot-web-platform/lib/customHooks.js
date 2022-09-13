@@ -21,6 +21,6 @@ export function useUser() {
         }
         getUserDetails();
     }, []);
-    console.log(`Returning user : ${JSON.stringify(user)} and authenticated: ${authenticated} from customHooks`)
+    console.log(`Returning user : ${JSON.stringify(user)} and authenticated: ${authenticated} from customHooks with token ${token}`)
     return { user, authenticated, token };
 }

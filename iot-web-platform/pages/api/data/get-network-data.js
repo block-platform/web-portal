@@ -1,9 +1,9 @@
 export default async function handler(req, res) {
     const { token } = req.body;
-    if (!token) {
-        res.status(400).json({ error: 'Missing required fields' });
-        return;
-    }
+    // if (!token) {
+    //     res.status(400).json({ error: 'Missing required fields' });
+    //     return;
+    // }
 
     const response = await fetch(`${process.env.API_URL}/devices`, {
         method: 'GET',

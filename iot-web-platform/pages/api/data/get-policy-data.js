@@ -1,9 +1,12 @@
 export default async function handler(req, res) {
     const { token } = req.body;
-    if (!token) {
-        res.status(400).json({ error: 'Missing required fields' });
-        return;
-    }
+    console.log("Toekn is: " + token);
+    console.log("req.body is: " + req.body);
+    console.log("req.body.token is: " + req.body.token);
+    // if (!token) {
+    //     res.status(400).json({ error: 'Missing required fields' });
+    //     return;
+    // }
 
     const response = await fetch(`${process.env.API_URL}/policies`, {
         method: 'GET',
@@ -19,6 +22,5 @@ export default async function handler(req, res) {
 
     const body = await response.json();
     console.log("Returning policy data:");
-    console.log(body)
     res.status(200).json(body);
 }
