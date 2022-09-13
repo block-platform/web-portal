@@ -6,16 +6,18 @@ import Router from 'next/router';
 export function useUser() {
     const [user, setUser] = useState(null);
     const [authenticated, setAuthenticated] = useState(false);
+    const [token, setToken] = useState(null);
     
     useEffect(() => {
         async function getUserDetails() {
-            const { authenticated, user } = await getAuthenticatedUser();
+            const { authenticated, user, token } = await getAuthenticatedUser();
             if (!authenticated) {
                 Router.push(APP_ROUTES.SIGN_IN);
                 return;
             }
             setUser(user);
             setAuthenticated(authenticated);
+            setToken(token);
         }
         getUserDetails();
     }, []);
