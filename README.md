@@ -54,6 +54,7 @@ Response body:
 Request body:
 ```json
 {
+    "id": "<id>",
     "name": "<name>",
     "owner": "<owner>",
     "region": "<region>"
