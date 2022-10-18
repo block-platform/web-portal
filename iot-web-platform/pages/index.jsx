@@ -37,6 +37,12 @@ export default function Home() {
   const [clientAccessEmail, setClientAccessEmail] = useState('');
   const [clientAccessDevice, setClientAccessDevice] = useState('');
 
+  const [clientEmailFetchData, setClientEmailFetchData] = useState('');
+  const [clientPasswordFetchData, setClientPasswordFetchData] = useState('');
+  const [deviceIDFetchData, setDeviceIDFetchData] = useState('');
+
+  const [deviceData, setDeviceData] = useState(null);
+
   useEffect(() => {
     fetchNetworkData();
     fetchPolicyData();
@@ -210,12 +216,46 @@ export default function Home() {
       }
     }
     catch (err) {
-      console.log('Some error occured while providing the client access: ', err);
+      console.log('Some error occured while creating the policy: ', err);
       toast.error("Error creating policy");
     }
     finally {
       setIsLoading(false);
       fetchPolicyData();
+    }
+  };
+
+  // Handler for creating a policy
+  const fetchDeviceData = async () => {
+    try {
+      setIsLoading(true);
+      console.log("Making request to fetch device data");
+      const response = await axios({
+        method: 'post',
+        url: API_ROUTES.GET_DEVICE_DATA,
+        data: {
+          "device_id": deviceIDFetchData,
+          "token": token,
+        }
+      });
+      console.log("Got back response from server for device data fetch: ", response);
+      if (response.status !== 200) {
+        console.log('Something went wrong while fetching device data: ', response);
+        toast.error("Error fetching device data");
+        return;
+      } else {
+        console.log("Device data fetched successfully");
+        // console.log("Response is ")
+        // console.log(response.data.data)
+        setDeviceData(response.data.data);
+      }
+    }
+    catch (err) {
+      console.log('Some error occured fetching device data: ', err);
+      toast.error("Error fetching deivce data");
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -268,7 +308,7 @@ export default function Home() {
                         setOpenTab(0);
                       }}
                       data-toggle="tab"
-                      href="#link1"
+                      href="#link0"
                       role="tablist"
                     >
                       Manage Network
@@ -287,7 +327,7 @@ export default function Home() {
                         setOpenTab(1);
                       }}
                       data-toggle="tab"
-                      href="#link2"
+                      href="#link1"
                       role="tablist"
                     >
                       Manage Policy
@@ -310,6 +350,25 @@ export default function Home() {
                       role="tablist"
                     >
                       Manage Client
+                    </a>
+                  </li>
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a
+                      className={
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                        (openTab === 3
+                          ? "text-white bg-purple-600"
+                          : "text-purple-600 bg-white")
+                      }
+                      onClick={e => {
+                        e.preventDefault();
+                        setOpenTab(3);
+                      }}
+                      data-toggle="tab"
+                      href="#link3"
+                      role="tablist"
+                    >
+                      View IoT Device Data
                     </a>
                   </li>
                 </ul>
@@ -535,6 +594,80 @@ export default function Home() {
                             </button>
                           </div>
                         </div>
+                      </div>
+                      <div className={openTab === 3 ? "block" : "hidden"} id="link3">
+                        <div className="flex flex-1 flex-col justify-evenly pr-5">
+                          <span className='mb-2 font-bold text-center'>Fetch IoT Device Data From IPFS</span>
+                          <input
+                            className="border-2 outline-none p-2 rounded-md"
+                            type="email"
+                            placeholder="Client Email"
+                            value={clientEmailFetchData}
+                            onChange={(e) => { setClientEmailFetchData(e.target.value); }}
+                          />
+                          <input
+                            className="border-2 outline-none p-2 rounded-md mt-2"
+                            type="password"
+                            placeholder="Password" value={clientPasswordFetchData}
+                            onChange={(e) => { setClientPasswordFetchData(e.target.value); }}
+                          />
+                          <input
+                            className="border-2 outline-none p-2 rounded-md mt-2"
+                            type="text"
+                            placeholder="Device ID" value={deviceIDFetchData}
+                            onChange={(e) => { setDeviceIDFetchData(e.target.value); }}
+                          />
+
+                          <button
+                            className="
+                                flex justify-center
+                                p-2 rounded-md w-1/2 self-center
+                                bg-blue-900  text-white 
+                                hover:bg-blue-800 mt-5"
+                            onClick={fetchDeviceData}
+                          >
+                            {
+                              isLoading ?
+                                <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
+                            }
+                            <span>
+                              Fetch Data
+                            </span>
+                          </button>
+                        </div>
+                        {deviceData ?
+                          <div>
+                            <TableContainer component={Paper}>
+                              <Table sx={{ minWidth: 650 }} aria-label="device data table">
+                                <TableHead>
+                                  <TableRow
+                                    sx={{
+                                      "& th": {
+                                        fontWeight: "bold",
+                                        color: "rgba(96, 96, 96)"
+                                      }
+                                    }}>
+                                    <TableCell>Timestamp</TableCell>
+                                    <TableCell>Temperature</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {deviceData.map((row) => (
+                                    <TableRow
+                                      key={row.timestamp}
+                                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                      <TableCell component="th" scope="row">
+                                        {row.timestamp}
+                                      </TableCell>
+                                      <TableCell>{row.temperature}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </div>
+                          : null}
                       </div>
                     </div>
                   </div>

@@ -6,6 +6,7 @@ export const API_ROUTES = {
     REGISTER_CLIENT: '/api/auth/register-client',
     GET_NETWORK_DATA: '/api/data/get-network-data',
     GET_POLICY_DATA: '/api/data/get-policy-data',
+    GET_DEVICE_DATA: '/api/data/get-device-data',
     SET_POLICY: '/api/data/set-policy',
     REGISTER_DEVICE: '/api/data/register-device',
 }
