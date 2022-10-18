@@ -368,7 +368,7 @@ export default function Home() {
                       href="#link3"
                       role="tablist"
                     >
-                      View IoT Device Data
+                      Fetch IoT Device Data
                     </a>
                   </li>
                 </ul>
