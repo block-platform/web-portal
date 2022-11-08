@@ -26,6 +26,7 @@ export default function Home() {
   const [deviceName, setDeviceName] = useState('');
   const [deviceOwner, setDeviceOwner] = useState('');
   const [deviceRegion, setDeviceRegion] = useState('');
+  const [deviceID, setDeviceID] = useState('');
 
   // Policy data
   const [policyDeviceID, setPolicyDeviceID] = useState('');
@@ -163,6 +164,7 @@ export default function Home() {
           "owner": deviceOwner,
           "region": deviceRegion,
           "token": token,
+          "id": deviceID,
         }
       });
       console.log("Got back response from server: ", response);
@@ -422,6 +424,13 @@ export default function Home() {
                               placeholder="Name"
                               value={deviceName}
                               onChange={(e) => { setDeviceName(e.target.value); }}
+                            />
+                            <input
+                              className="border-2 outline-none p-2 rounded-md"
+                              type="email"
+                              placeholder="ID"
+                              value={deviceID}
+                              onChange={(e) => { setDeviceID(e.target.value); }}
                             />
                             <input
                               className="border-2 outline-none p-2 rounded-md mt-2"

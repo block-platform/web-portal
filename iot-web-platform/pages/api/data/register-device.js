@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
-    const { name, owner, region, token } = req.body;
-    if (!name || !owner || !region || !token) {
+    const { name, owner, region, token, id } = req.body;
+    if (!name || !owner || !region || !token || !id) {
         res.status(400).json({ error: 'Missing required fields in register-device' });
         return;
     }
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ name, owner, region }),
+        body: JSON.stringify({ name, owner, region, id }),
     });
 
     if (!response?.ok) {
