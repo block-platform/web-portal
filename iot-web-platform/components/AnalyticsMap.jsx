@@ -23,12 +23,34 @@ export default function AnalyticsMap(props) {
         );
     }
 
+    let usWestRadius = 0;
+    let usCentralRadius = 0;
+    let usEastRadius = 0;
+
+    for (let i = 0; i < props.mapData.length; i++) {
+        if (props.mapData[i].region === 'US West') {
+            usWestRadius += 1;
+        } else if (props.mapData[i].region === 'US Central') {
+            usCentralRadius += 1;
+        } else if (props.mapData[i].region === 'US East') {
+            usEastRadius += 1;
+        }
+    }
+
+    const total = usWestRadius + usCentralRadius + usEastRadius;
+
+    usWestRadius = (usWestRadius / total) * 1000000;
+    usCentralRadius = (usCentralRadius / total) * 1000000;
+    usEastRadius = (usEastRadius / total) * 1000000;
+
+    console.log(usWestRadius, usCentralRadius, usEastRadius);
+
     return (
         <div className="flex justify-center">
             <GoogleMap center={center} zoom={4} mapContainerStyle={{ width: "700px", height: "700px" }}>
-                <Circle center={usWest} radius={1000000} options={options} />
-                <Circle center={usCentral} radius={1000000} options={options} />
-                <Circle center={usEast} radius={1000000} options={options} />
+                <Circle center={usWest} radius={usWestRadius} options={options} />
+                <Circle center={usCentral} radius={usCentralRadius} options={options} />
+                <Circle center={usEast} radius={usEastRadius} options={options} />
             </GoogleMap>
         </div>
     );
