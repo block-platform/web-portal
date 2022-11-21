@@ -719,7 +719,7 @@ export default function Home() {
                       </div>
                       <div className={openTab === 4 ? "block" : "hidden"} id="link4">
                         <div className="flex flex-1 flex-col justify-evenly pr-5">
-                          <AnalyticsMap />
+                          <AnalyticsMap mapData={networkData} />
                         </div>
                       </div>
                       <div className={openTab === 5 ? "block" : "hidden"} id="link5">

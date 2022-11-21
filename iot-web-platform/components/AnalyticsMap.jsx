@@ -1,4 +1,4 @@
-import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
+import { useJsApiLoader, GoogleMap, Circle } from '@react-google-maps/api';
 
 export default function AnalyticsMap(props) {
 
@@ -7,16 +7,15 @@ export default function AnalyticsMap(props) {
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
     })
 
-    const centerChina = { lat: 26.282581, lng: 107.896686 }
-    const guandong = { lat: 24.043248, lng: 114.740903 }
-    const guangxi = { lat: 24.062199, lng: 110.517365 }
-    const yunnan = { lat: 24.545885, lng: 101.519394 }
-    const hainan = { lat: 19.339891, lng: 109.755478 }
+    const center = { lat: 40.256310, lng: -98.177603 }
+    const usWest = { lat: 37.087596, lng: -119.697997 }
+    const usCentral = { lat: 38.025883, lng: -100.378311 }
+    const usEast = { lat: 38.964653, lng: -79.710132 }
 
-    const centerIndonesia = { lat: -6.419890, lng: 108.117360 }
-    const lampung = { lat: -4.810370, lng: 105.250977 }
-    const eastJava = { lat: -7.428161, lng: 112.114438 }
-    const westJava = { lat: -6.997026, lng: 107.713104 }
+    const options = {
+        strokeColor: '#FF0000',
+        fillColor: '#FF0000',
+    }
 
     if (!isLoaded) {
         return (
@@ -25,12 +24,11 @@ export default function AnalyticsMap(props) {
     }
 
     return (
-        // Create div to center map
         <div className="flex justify-center">
-            <GoogleMap center={centerIndonesia} zoom={4} mapContainerStyle={{ width: "700px", height: "700px" }}>
-                <Marker position={lampung} />
-                <Marker position={eastJava} />
-                <Marker position={westJava} />
+            <GoogleMap center={center} zoom={4} mapContainerStyle={{ width: "700px", height: "700px" }}>
+                <Circle center={usWest} radius={1000000} options={options} />
+                <Circle center={usCentral} radius={1000000} options={options} />
+                <Circle center={usEast} radius={1000000} options={options} />
             </GoogleMap>
         </div>
     );
