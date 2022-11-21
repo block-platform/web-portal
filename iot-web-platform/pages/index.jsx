@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useUser } from '../lib/customHooks';
 import Layout from '../components/Layout';
+import AnalyticsMap from '../components/AnalyticsMap';
 import { API_ROUTES } from '../utils/constants';
 import axios from 'axios';
 
@@ -373,6 +374,44 @@ export default function Home() {
                       Fetch IoT Device Data
                     </a>
                   </li>
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a
+                      className={
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                        (openTab === 4
+                          ? "text-white bg-purple-600"
+                          : "text-purple-600 bg-white")
+                      }
+                      onClick={e => {
+                        e.preventDefault();
+                        setOpenTab(4);
+                      }}
+                      data-toggle="tab"
+                      href="#link4"
+                      role="tablist"
+                    >
+                      Map
+                    </a>
+                  </li>
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a
+                      className={
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                        (openTab === 5
+                          ? "text-white bg-purple-600"
+                          : "text-purple-600 bg-white")
+                      }
+                      onClick={e => {
+                        e.preventDefault();
+                        setOpenTab(5);
+                      }}
+                      data-toggle="tab"
+                      href="#link5"
+                      role="tablist"
+                    >
+                      Analytics
+                    </a>
+                  </li>
                 </ul>
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
                   <div className="px-4 py-5 flex-auto">
@@ -677,6 +716,16 @@ export default function Home() {
                             </TableContainer>
                           </div>
                           : null}
+                      </div>
+                      <div className={openTab === 4 ? "block" : "hidden"} id="link4">
+                        <div className="flex flex-1 flex-col justify-evenly pr-5">
+                          <AnalyticsMap />
+                        </div>
+                      </div>
+                      <div className={openTab === 5 ? "block" : "hidden"} id="link5">
+                        <div className="flex flex-1 flex-col justify-evenly pr-5">
+                          adsfsdf
+                        </div>
                       </div>
                     </div>
                   </div>
