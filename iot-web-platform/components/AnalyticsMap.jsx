@@ -43,8 +43,6 @@ export default function AnalyticsMap(props) {
     usCentralRadius = (usCentralRadius / total) * 1000000;
     usEastRadius = (usEastRadius / total) * 1000000;
 
-    console.log(usWestRadius, usCentralRadius, usEastRadius);
-
     return (
         <div className="flex justify-center">
             <GoogleMap center={center} zoom={4} mapContainerStyle={{ width: "700px", height: "700px" }}>
