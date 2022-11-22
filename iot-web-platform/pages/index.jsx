@@ -390,25 +390,6 @@ export default function Home() {
                       href="#link4"
                       role="tablist"
                     >
-                      Map
-                    </a>
-                  </li>
-                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                    <a
-                      className={
-                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                        (openTab === 5
-                          ? "text-white bg-purple-600"
-                          : "text-purple-600 bg-white")
-                      }
-                      onClick={e => {
-                        e.preventDefault();
-                        setOpenTab(5);
-                      }}
-                      data-toggle="tab"
-                      href="#link5"
-                      role="tablist"
-                    >
                       Analytics
                     </a>
                   </li>
@@ -720,11 +701,6 @@ export default function Home() {
                       <div className={openTab === 4 ? "block" : "hidden"} id="link4">
                         <div className="flex flex-1 flex-col justify-evenly pr-5">
                           <AnalyticsMap mapData={networkData} />
-                        </div>
-                      </div>
-                      <div className={openTab === 5 ? "block" : "hidden"} id="link5">
-                        <div className="flex flex-1 flex-col justify-evenly pr-5">
-                          adsfsdf
                         </div>
                       </div>
                     </div>
