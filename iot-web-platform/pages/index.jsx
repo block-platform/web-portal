@@ -446,7 +446,7 @@ export default function Home() {
                               onChange={(e) => { setDeviceName(e.target.value); }}
                             />
                             <input
-                              className="border-2 outline-none p-2 rounded-md"
+                              className="border-2 outline-none p-2 rounded-md mt-2"
                               type="email"
                               placeholder="ID"
                               value={deviceID}
