@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
-    const { device_id } = req.body;
+    const { email, password, device_id } = req.body;
 
-    if (!device_id) {
+    if (!email || !password || !device_id) {
         res.status(400).json({ error: 'Missing required fields in get-device-data' });
         return;
     }

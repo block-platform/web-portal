@@ -179,6 +179,7 @@ export default function Home() {
         setDeviceName('');
         setDeviceOwner('');
         setDeviceRegion('');
+        setDeviceID('');
       }
     }
     catch (err) {
@@ -237,6 +238,8 @@ export default function Home() {
         method: 'post',
         url: API_ROUTES.GET_DEVICE_DATA,
         data: {
+          "email": clientEmailFetchData,
+          "password": clientPasswordFetchData,
           "device_id": deviceIDFetchData,
           "token": token,
         }
