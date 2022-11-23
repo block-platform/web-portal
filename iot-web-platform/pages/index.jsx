@@ -534,7 +534,7 @@ export default function Home() {
                             <input
                               className="border-2 outline-none p-2 rounded-md mt-2"
                               type="email"
-                              placeholder="Authorized Devide ID" value={policyAccessID}
+                              placeholder="Authorized Device ID" value={policyAccessID}
                               onChange={(e) => { setPolicyAccessID(e.target.value); }}
                             />
 
