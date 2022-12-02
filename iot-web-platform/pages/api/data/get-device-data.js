@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         return;
     }
 
-    const response = await fetch(`${process.env.API_URL}/iot/fetch-data/${device_id}`, {
+    const response = await fetch(`${process.env.IPFS_SERVER_URL}/iot/fetch-data/${device_id}?email=${email}&password=${password}`, {
         method: 'GET'
     });
 
