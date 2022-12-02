@@ -358,7 +358,7 @@ export default function Home() {
                       Manage Client
                     </a>
                   </li>
-                  {/* <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                     <a
                       className={
                         "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
@@ -376,7 +376,7 @@ export default function Home() {
                     >
                       Fetch IoT Device Data
                     </a>
-                  </li> */}
+                  </li>
                   <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                     <a
                       className={
@@ -627,7 +627,7 @@ export default function Home() {
                           </div>
                         </div>
                       </div>
-                      {/* <div className={openTab === 3 ? "block" : "hidden"} id="link3">
+                      <div className={openTab === 3 ? "block" : "hidden"} id="link3">
                         <div className="flex flex-1 flex-col justify-evenly pr-5">
                           <span className='mb-2 font-bold text-center'>Fetch IoT Device Data From IPFS</span>
                           <input
@@ -700,7 +700,7 @@ export default function Home() {
                             </TableContainer>
                           </div>
                           : null}
-                      </div> */}
+                      </div>
                       <div className={openTab === 4 ? "block" : "hidden"} id="link4">
                         <div className="flex flex-1 flex-col justify-evenly pr-5">
                           <AnalyticsMap mapData={networkData} />
