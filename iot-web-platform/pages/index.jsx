@@ -431,7 +431,7 @@ export default function Home() {
                                       </TableCell>
                                       <TableCell>{row.id}</TableCell>
                                       <TableCell>{row.region}</TableCell>
-                                      <TableCell>{row.ipfs}</TableCell>
+                                      <TableCell>{row.ipfs.at(-1)}</TableCell>
                                       <TableCell>{row.updated_at}</TableCell>
                                     </TableRow>
                                   ))}
